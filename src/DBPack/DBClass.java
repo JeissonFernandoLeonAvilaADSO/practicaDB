@@ -1,5 +1,4 @@
 package DBPack;
-import pantalla.Principal;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -7,8 +6,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class DBClass {
-    public void addUser(){
-        Principal datos = new Principal();
+    public void addUser(String usuario, String password, String correo){
+
         String url = "jdbc:mysql://localhost:3306/practicasql";
         String nombreDeUsuario = "root";
         String pass = "";
@@ -22,9 +21,9 @@ public class DBClass {
             pstmt = con.prepareStatement(consulta); //inicializo la consulta
 
 
-            pstmt.setString(1, datos.user);
-            pstmt.setString(2, datos.pswrd);
-            pstmt.setString(3, datos.corr);
+            pstmt.setString(1, usuario);
+            pstmt.setString(2, password);
+            pstmt.setString(3, correo);
 
             pstmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");

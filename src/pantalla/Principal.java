@@ -1,5 +1,7 @@
 package pantalla;
 
+import DBPack.DBClass;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,10 +11,10 @@ public class Principal {
     private JTextField UserInput;
     private JTextField PassInput;
     private JTextField CorrInput;
-    private JButton enviarButton;
+    public JButton enviarButton;
     public String user, pswrd, corr;
     public boolean check = false;
-    public Principal() {
+    public Principal(DBClass DB) {
         enviarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -25,18 +27,18 @@ public class Principal {
                     UserInput.setText("");
                     PassInput.setText("");
                     CorrInput.setText("");
-                    JOptionPane.showMessageDialog(null, "Datos guardados");
-                }
 
+                    // Aquí es donde envías los datos a la base de datos
+                    DB.addUser(user, pswrd, corr);
+                }
             }
         });
-
-
     }
+
 
     public void registro() {
         JFrame frame = new JFrame("Principal");
-        frame.setContentPane(new Principal().panel);
+        frame.setContentPane(this.panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
