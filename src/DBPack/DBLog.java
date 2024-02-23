@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-public class DBClass {
-    public void addUser(String usuario, String password, String correo){
+public class DBLog {
+    public boolean checkLogin = false;
+    public void LogUser(String usuario, String password){
 
         String url = "jdbc:mysql://localhost:3306/practicasql";
         String nombreDeUsuario = "root";
@@ -17,16 +19,20 @@ public class DBClass {
             // Establece la conexión con la base de datos
             con = DriverManager.getConnection(url, nombreDeUsuario, pass); //establezco conexion con la base de datos
 
-            String consulta = "INSERT INTO usuario (Usuario, Contraseña, Correo) VALUES (?, ?, ?)"; //creo la consulta
+            String consulta = "SELECT * FROM usuario WHERE Usuario = ? AND Contraseña = ?"; //creo la consulta
             pstmt = con.prepareStatement(consulta); //inicializo la consulta
-
 
             pstmt.setString(1, usuario);
             pstmt.setString(2, password);
-            pstmt.setString(3, correo);
 
-            pstmt.executeUpdate(); //ejecutar la consulta
-            JOptionPane.showMessageDialog(null, "Datos insertados correctamente.");
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()){
+                JOptionPane.showMessageDialog(null, "Bienvenido " + rs.getString("Usuario"));
+                checkLogin = true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Algo ha sido incorrecto");
+            }
+
             pstmt.close();
             con.close();
         }  catch (Exception e) {

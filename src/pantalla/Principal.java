@@ -13,7 +13,6 @@ public class Principal {
     private JTextField CorrInput;
     public JButton enviarButton;
     public String user, pswrd, corr;
-    public boolean check = false;
     public Principal(DBClass DB) {
         enviarButton.addActionListener(new ActionListener() {
             @Override
@@ -23,7 +22,6 @@ public class Principal {
                 corr = CorrInput.getText();
 
                 if (user != null && pswrd != null && corr != null){
-                    check = true;
                     UserInput.setText("");
                     PassInput.setText("");
                     CorrInput.setText("");
